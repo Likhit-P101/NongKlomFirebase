@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart'
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -19,15 +19,45 @@ class _RegisterState extends State<Register> {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
           print('Name = $strName, Email = $strEmail, Password =$strPassword');
+          uploadValueToFirebase();
         }
       },
     );
   }
 
-  void uploadValueToFirebase() async{
-
+  void uploadValueToFirebase() async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    await firebaseAuth
+        .createUserWithEmailAndPassword(email: strEmail, password: strPassword)
+        .then((objValue) {
+      print('Success Register');
+    }).catchError((errorObj) {
+      String strError = errorObj.message;
+      print('Error {uploadValueToFirebase} => $strError');
+      
+      showAlertDialog('Cannot Registed', strError);
 
+    });
+  }
+
+  void showAlertDialog(String strTitle, String strMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(strTitle),
+          content: Text(strMessage),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   Widget nameTextFormField() {
