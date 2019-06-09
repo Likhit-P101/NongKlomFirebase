@@ -1,5 +1,7 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:nongklomfirebase/screens/my_service.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -19,24 +21,54 @@ class _RegisterState extends State<Register> {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
           print('Name = $strName, Email = $strEmail, Password =$strPassword');
-          uploadValueToFirebase();
+          uploadValueToFirebase(context);
         }
       },
     );
   }
 
-  void uploadValueToFirebase() async {
+  void uploadValueToFirebase(BuildContext context) async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     await firebaseAuth
         .createUserWithEmailAndPassword(email: strEmail, password: strPassword)
         .then((objValue) {
       print('Success Register');
+
+      // get Uid from FirebaseAuth => Success
+      String strUid = objValue.uid.toString();
+      print('Uid => $strUid');
+
+      //send uid to database method
+      updateDatabase(strUid, context);
     }).catchError((errorObj) {
       String strError = errorObj.message;
       print('Error {uploadValueToFirebase} => $strError');
-      
-      showAlertDialog('Cannot Registed', strError);
 
+      showAlertDialog('Cannot Registed', strError);
+    });
+  }
+
+  void updateDatabase(String strUid, BuildContext context) async {
+    FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
+
+    // set Value to map
+    Map<String, String> map = Map();
+    map['Uid'] = strUid;
+    map['Name'] = strName;
+    map['Email'] = strEmail;
+
+    await firebaseDatabase
+        .reference()
+        .child('User')
+        .child(strUid)
+        .set(map)
+        .then((objValue) {
+      
+      //Move to MyService
+      var serviceRoute =
+          MaterialPageRoute(builder: (BuildContext context) => MyService());
+      Navigator.of(context)
+          .pushAndRemoveUntil(serviceRoute, (Route<dynamic> route) => false);
     });
   }
 
