@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'
 
 class Register extends StatefulWidget {
   @override
@@ -21,6 +22,12 @@ class _RegisterState extends State<Register> {
         }
       },
     );
+  }
+
+  void uploadValueToFirebase() async{
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   }
 
   Widget nameTextFormField() {
