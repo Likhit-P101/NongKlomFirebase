@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:nongklomfirebase/screens/register.dart';
 
 class Authen extends StatefulWidget {
   @override
@@ -77,7 +78,7 @@ class _AuthenState extends State<Authen> {
     );
   }
 
-  Widget signUp() {
+  Widget signUp(BuildContext context) {
     return Expanded(
       child: RaisedButton(
         color: Colors.blueAccent[100],
@@ -85,7 +86,12 @@ class _AuthenState extends State<Authen> {
           'Sign Up',
           style: TextStyle(color: Colors.white),
         ),
-        onPressed: () {},
+        onPressed: () {
+          print('Click Sign Up');
+          var registerRoute =
+              MaterialPageRoute(builder: (BuildContext context) => Register());
+              Navigator.of(context).push(registerRoute);
+        },
       ),
     );
   }
@@ -114,7 +120,7 @@ class _AuthenState extends State<Authen> {
               alignment: Alignment(0, -1),
               width: 250.0,
               child: Row(
-                children: <Widget>[signIn(), space(), signUp()],
+                children: <Widget>[signIn(), space(), signUp(context)],
               ),
             ),
           ],
