@@ -6,18 +6,20 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  Widget space() {
-    //ทำเป็นช่องว่างแล้วนำไปแทรกตาม
-    return SizedBox(
-      height: 16.0,
-      width: 8.0,
-    );
-  }
+  //Obj สำหรับ Class นี้
+  final formKey = GlobalKey<FormState>();
+
+  String strName, strEmail, strPassword;
 
   Widget uploadButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
-      onPressed: () {},
+      onPressed: () {
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          print('Name = $strName, Email = $strEmail, Password =$strPassword');
+        }
+      },
     );
   }
 
@@ -27,7 +29,16 @@ class _RegisterState extends State<Register> {
       child: Container(
         width: 250.0,
         child: TextFormField(
-          decoration: InputDecoration(labelText: 'Name :', hintText: 'Request'),
+          decoration: InputDecoration(
+            labelText: 'Name :',
+            hintText: 'Request',
+          ),
+          validator: (String valueName) {
+            if (valueName.length == 0) {
+              return 'Please Fill Name Blank.';
+            }
+          },
+          onSaved: (String valueName) => strName = valueName,
         ),
       ),
     );
@@ -39,8 +50,18 @@ class _RegisterState extends State<Register> {
       child: Container(
         width: 250.0,
         child: TextFormField(
-          decoration:
-              InputDecoration(labelText: 'E-mail :', hintText: 'Request'),
+          decoration: InputDecoration(
+            labelText: 'E-mail :',
+            hintText: 'Request',
+          ),
+          validator: (String valueEmail) {
+            if (!((valueEmail.contains('@')) && (valueEmail.contains('.')))) {
+              return 'Please Type Email Format.';
+            }
+          },
+          onSaved: (String valueEmail) {
+            strEmail = valueEmail;
+          },
         ),
       ),
     );
@@ -52,8 +73,16 @@ class _RegisterState extends State<Register> {
       child: Container(
         width: 250.0,
         child: TextFormField(
-          decoration:
-              InputDecoration(labelText: 'Password :', hintText: 'Request'),
+          decoration: InputDecoration(
+            labelText: 'Password :',
+            hintText: 'Request',
+          ),
+          validator: (String valuePassword) {
+            if (valuePassword.length < 6) {
+              return 'Please More 6 charactor.';
+            }
+          },
+          onSaved: (String valuePassword) => strPassword = valuePassword,
         ),
       ),
     );
@@ -67,16 +96,19 @@ class _RegisterState extends State<Register> {
         title: Text('Register'),
         actions: <Widget>[uploadButton()],
       ),
-      body: Container(
-          padding: EdgeInsets.only(top: 80.0),
-          alignment: Alignment(0, -1),
-          child: Column(
-            children: <Widget>[
-              nameTextFormField(),
-              emailTextFormField(),
-              passwordTextFormField(),
-            ],
-          )),
+      body: Form(
+        key: formKey,
+        child: Container(
+            padding: EdgeInsets.only(top: 80.0),
+            alignment: Alignment(0, -1),
+            child: Column(
+              children: <Widget>[
+                nameTextFormField(),
+                emailTextFormField(),
+                passwordTextFormField(),
+              ],
+            )),
+      ),
     );
   }
 }
