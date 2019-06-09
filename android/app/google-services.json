@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "72347453546",
+    "firebase_url": "https://nongklomfirebase.firebaseio.com",
+    "project_id": "nongklomfirebase",
+    "storage_bucket": "nongklomfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72347453546:android:e76bb6809cbc9d86",
+        "android_client_info": {
+          "package_name": "com.nongklom.app.nongklomfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72347453546-2cto2isfe9vo21gqiip9fvkinbif5mq3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nongklom.app.nongklomfirebase",
+            "certificate_hash": "b13c13273af057083106c550c778085d8bf5b0dd"
+          }
+        },
+        {
+          "client_id": "72347453546-fkdiviq2k38g5srcevon3e9s75lifoqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbkYieJzwP1ewXgKS6Roh1q-44DFAOoRg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72347453546-fkdiviq2k38g5srcevon3e9s75lifoqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
